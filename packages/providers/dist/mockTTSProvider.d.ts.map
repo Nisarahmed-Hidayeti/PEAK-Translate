@@ -1,0 +1,1 @@
+{"version":3,"file":"mockTTSProvider.d.ts","sourceRoot":"","sources":["../src/mockTTSProvider.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,YAAY,EAAE,MAAM,wBAAwB,CAAC;AAEnE,qBAAa,eAAgB,YAAW,WAAW;IAC3C,KAAK,CAAC,IAAI,EAAE,MAAM,EAAE,QAAQ,EAAE,YAAY,GAAG,OAAO,CAAC,IAAI,CAAC;IAOhE,IAAI,IAAI,IAAI;CAIb"}

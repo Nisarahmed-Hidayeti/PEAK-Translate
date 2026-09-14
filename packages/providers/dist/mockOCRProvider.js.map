@@ -1,0 +1,1 @@
+{"version":3,"file":"mockOCRProvider.js","sourceRoot":"","sources":["../src/mockOCRProvider.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,eAAe;IAC1B,KAAK,CAAC,WAAW,CAAC,SAAiB;QAKjC,8DAA8D;QAC9D,wFAAwF;QACxF,OAAO;YACL,IAAI,EAAE,wDAAwD;YAC9D,UAAU,EAAE,IAAI;YAChB,QAAQ,EAAE,IAAoB;SAC/B,CAAC;IACJ,CAAC;CACF"}

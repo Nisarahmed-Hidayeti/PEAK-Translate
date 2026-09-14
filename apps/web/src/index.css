@@ -1,0 +1,521 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.app-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.app-main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app-footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  text-align: center;
+}
+
+.dashboard h1 {
+  color: #0066cc;
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  min-width: 150px;
+}
+
+.stat-card h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  color: #0066cc;
+}
+
+.stat-card p {
+  margin: 0;
+  color: #666;
+  font-weight: 500;
+}
+
+.recent-section,
+.cta-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.recent-section h2,
+.cta-section h2 {
+  color: #0066cc;
+  margin-top: 0;
+}
+
+.recent-words-list {
+  list-style: none;
+  padding: 0;
+}
+
+.recent-word-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.recent-word-item:last-child {
+  border-bottom: none;
+}
+
+.word {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.translation {
+  color: #0066cc;
+  font-style: italic;
+}
+
+.date {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  color: #999;
+  font-style: italic;
+}
+
+.cta-section p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.primary-button {
+  background: #0066cc;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primary-button:hover {
+  background: #0052a3;
+}
+
+/* Vocabulary List Styles */
+.vocabulary-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.vocabulary-list h1 {
+  color: #0066cc;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 3rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.vocabulary-list-items {
+  list-style: none;
+  padding: 0;
+}
+
+.vocabulary-item {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vocabulary-item-content {
+  flex: 1;
+}
+
+.vocabulary-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.vocabulary-link:hover {
+  text-decoration: underline;
+}
+
+.word {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.translation {
+  font-size: 1.2rem;
+  color: #0066cc;
+  margin-bottom: 0.5rem;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.remove-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background: #c82333;
+}
+
+/* Vocabulary Detail Styles */
+.vocabulary-detail {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.vocabulary-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.vocabulary-detail-body {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.translation-section,
+.definition-section,
+.examples-section,
+.pronunciation-section,
+.metadata-section,
+.actions-section {
+  margin-bottom: 2rem;
+}
+
+.translation-section h2,
+.definition-section h2,
+.examples-section h2,
+.pronunciation-section h2,
+.metadata-section h2,
+.actions-section h2 {
+  color: #0066cc;
+  margin-top: 0;
+}
+
+.translation-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #0066cc;
+}
+
+.examples-list {
+  list-style: none;
+  padding: 0;
+}
+
+.example-item {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.phonetic-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.audio-button,
+.edit-button,
+.remove-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.audio-button {
+  background: #6c757d;
+  color: white;
+}
+
+.audio-button:hover {
+  background: #5a6268;
+}
+
+.edit-button {
+  background: #ffc107;
+  color: #212529;
+}
+
+.edit-button:hover {
+  background: #e0a800;
+}
+
+.remove-button {
+  background: #dc3545;
+  color: white;
+}
+
+.remove-button:hover {
+  background: #c82333;
+}
+
+.context-section,
+.source-section {
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.context-section h3,
+.source-section h3 {
+  margin-top: 0;
+  color: #495057;
+}
+
+/* Settings Page Styles */
+.settings-page {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.settings-page h1 {
+  color: #0066cc;
+  text-align: center;
+}
+
+.settings-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.settings-section h2 {
+  color: #0066cc;
+  margin-top: 0;
+}
+
+.danger-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.danger-button:hover {
+  background: #c82333;
+}
+
+/* Privacy Page Styles */
+.privacy-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.privacy-page h1 {
+  color: #0066cc;
+  text-align: center;
+}
+
+.privacy-content {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.privacy-content h2 {
+  color: #0066cc;
+  margin-top: 0;
+}
+
+.privacy-content h3 {
+  color: #495057;
+}
+
+.privacy-content ul {
+  padding-left: 1.5rem;
+}
+
+.privacy-content li {
+  margin-bottom {
+  margin-bottom: 1rem;
+}
+
+/* Loading State */
+.context-loading {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1.5rem;
+  }
+  
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .app-header p {
+    font-size: 1rem;
+  }
+  
+  .app-main {
+    padding: 1rem;
+  }
+  
+  .stats {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-card {
+    min-width: unset;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .vocabulary-detail {
+    padding: 0 0.5rem;
+  }
+  
+  .vocabulary-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
