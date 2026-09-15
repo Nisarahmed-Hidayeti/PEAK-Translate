@@ -12,21 +12,14 @@ browser.runtime.onMessage.addListener((message: any, sender: any, sendResponse: 
     sendResponse({text: selectedText});
     return true; // Indicates we want to send a response asynchronously
   }
-
+  
   if (message.type === 'SHOW_TRANSLATION') {
     // Show the translation UI
     showTranslationCard(message.translation);
     sendResponse({status: 'shown'});
     return true;
   }
-
-  if (message.type === 'VOCABULARY_UPDATED') {
-    // Vocabulary has been updated, we could refresh the UI if needed
-    // For now, we just log it - the web dashboard will pick up changes via storage events
-    console.log('Vocabulary updated via extension:', message.vocabulary.length, 'items');
-    return true;
-  }
-
+  
   return false; // No response needed
 });
 

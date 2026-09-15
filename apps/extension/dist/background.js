@@ -1,5 +1,9 @@
 // Background script for Peak Translation Firefox Extension
 
+// Import translation providers
+// In a real build setup, these would be bundled or imported properly
+// For now, we'll use dynamic import or check availability
+
 // Mock provider (same as in providers, but simplified for extension)
 class MockTranslationProvider {
   async translateText(text, sourceLang, targetLang) {
@@ -36,7 +40,83 @@ class MockTranslationProvider {
   }
 }
 
-const provider = new MockTranslationProvider();
+// Placeholder for real provider - will be replaced with actual implementation
+class LibreTranslateProvider {
+  constructor() {
+    this.apiUrl = 'https://libretranslate.de/translate';
+    this.languageMap = {
+      tr: 'tr',
+      en: 'en',
+      es: 'es',
+      fr: 'fr',
+      de: 'de'
+    };
+  }
+
+  async translateText(text, sourceLang, targetLang) {
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          q: text,
+          source: this.languageMap[sourceLang] || sourceLang,
+          target: this.languageMap[targetLang] || targetLang,
+          format: 'text'
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Translation API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const translatedText = data.translatedText || '';
+
+      return {
+        translatedText,
+        details: {
+          definitions: [],
+          examples: [],
+          phonetic: undefined
+        }
+      };
+    } catch (error) {
+      console.error('LibreTranslate translation error:', error);
+      throw error;
+    }
+  }
+
+  async lookupWord(word, sourceLang, targetLang) {
+    // For single word lookup, we can still use translateText
+    if (word.trim().split(/\s+/).length === 1 && word.length > 0) {
+      try {
+        const result = await this.translateText(word, sourceLang, targetLang);
+        return {
+          word,
+          translations: [result.translatedText],
+          definition: undefined,
+          examples: [],
+          phonetic: undefined
+        };
+      } catch (error) {
+        console.error('LibreTranslate lookup error:', error);
+        return null;
+      }
+    }
+    return null;
+  }
+}
+
+// Factory function to create translation provider
+function createTranslationProvider(useMock = false) {
+  if (useMock) {
+    return new MockTranslationProvider();
+  }
+  return new LibreTranslateProvider();
+}
 
 // Default language settings
 let languageConfig = {
@@ -46,6 +126,12 @@ let languageConfig = {
 
 // Vocabulary storage key
 const VOCABULARY_STORAGE_KEY = 'peak-translation-vocabulary';
+
+// Configuration flag - in production, this would come from build config or storage
+const USE_MOCK_PROVIDER = false; // Set to true for development/testing
+
+// Initialize provider
+const provider = createTranslationProvider(USE_MOCK_PROVIDER);
 
 // Load language settings from storage on startup
 browser.storage.sync.get(['native', 'learning']).then(result => {
@@ -102,7 +188,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     return true; // Keep the message channel open for async response
   }
-  
+
   if (message.type === 'SAVE_VOCABULARY') {
     // Save vocabulary item to storage
     const vocabItem = message.vocabulary;
@@ -114,16 +200,16 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       createdAt: vocabItem.createdAt || now,
       updatedAt: vocabItem.updatedAt || now
     };
-    
+
     browser.storage.sync.get([VOCABULARY_STORAGE_KEY]).then(result => {
       const vocabulary = result[VOCABULARY_STORAGE_KEY] || [];
       // Check for duplicates (by word and language pair)
-      const isDuplicate = vocabulary.some(item => 
+      const isDuplicate = vocabulary.some(item =>
         item.word.toLowerCase() === vocabItem.word.toLowerCase() &&
         item.sourceLanguage === vocabItem.sourceLanguage &&
         item.targetLanguage === vocabItem.targetLanguage
       );
-      
+
       if (!isDuplicate) {
         vocabulary.push(itemToSave);
         browser.storage.sync.set({ [VOCABULARY_STORAGE_KEY]: vocabulary }).then(() => {
@@ -135,10 +221,10 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({status: 'duplicate', message: 'Word already exists in vocabulary'});
       }
     });
-    
+
     return true; // Keep the message channel open for async response
   }
-  
+
   return false; // No response needed
 });
 
@@ -232,4 +318,3 @@ async function handleTextTranslation() {
 function showNotification(message) {
   alert(`Peak Translation: ${message}`);
 }
-
