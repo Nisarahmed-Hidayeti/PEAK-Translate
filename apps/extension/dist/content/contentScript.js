@@ -1,5 +1,26 @@
 "use strict";
 // Content script for Peak Translation Firefox Extension
+// Text-to-speech function using Web Speech API
+function speakText(text, language) {
+    if (!('speechSynthesis' in window)) {
+        alert('Speech synthesis not supported in this browser');
+        return;
+    }
+    const synth = window.speechSynthesis;
+    if (synth.speaking) {
+        synth.cancel(); // Cancel any ongoing speech
+    }
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language === 'tr' ? 'tr-TR' :
+        language === 'en' ? 'en-US' :
+            language === 'es' ? 'es-ES' :
+                language === 'fr' ? 'fr-FR' :
+                    language === 'de' ? 'de-DE' : language;
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 0.8;
+    synth.speak(utterance);
+}
 // Listen for messages from background script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'GET_SELECTION') {
@@ -13,6 +34,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         // Show the translation UI
         showTranslationCard(message.translation);
         sendResponse({ status: 'shown' });
+        return true;
+    }
+    if (message.type === 'VOCABULARY_UPDATED') {
+        // Vocabulary has been updated, we could refresh the UI if needed
+        // For now, we just log it - the web dashboard will pick up changes via storage events
+        console.log('Vocabulary updated via extension:', message.vocabulary.length, 'items');
         return true;
     }
     return false; // No response needed
@@ -68,7 +95,7 @@ function showTranslationCard(translation) {
         content += `</ul>`;
     }
     // Audio button
-    if (translation.phonetic) {
+    if (translation.word || translation.translation) {
         content += `<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">`;
         content += `<span style="font-size: 0.9rem; color: #666;">Pronunciation:</span>`;
         content += `<button id="peak-translation-audio" style="`;
@@ -89,9 +116,11 @@ function showTranslationCard(translation) {
     const audioBtn = card.querySelector('#peak-translation-audio');
     if (audioBtn) {
         audioBtn.addEventListener('click', () => {
-            // In a real implementation, this would use TTS
-            alert(`Playing audio for: ${translation.word || translation.translation}`);
-            // TODO: Implement actual TTS using browser speech synthesis or provider
+            // Implement actual TTS using browser speech synthesis
+            const textToSpeak = translation.word || translation.translation;
+            if (textToSpeak) {
+                speakText(textToSpeak, 'en'); // TODO: Get language from settings
+            }
         });
     }
     const saveBtn = card.querySelector('#peak-translation-save');

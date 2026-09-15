@@ -279,7 +279,7 @@ async function handleTextTranslation() {
       );
       // If lookupWord returns null (e.g., not a single word), fall back to translateText
       if (!translationResult) {
-        translationResult = await provider.translateText(
+        const translationResponse = await provider.translateText(
           selectedText.trim(),
           languageConfig.learning,
           languageConfig.native
@@ -287,10 +287,12 @@ async function handleTextTranslation() {
         // Convert to the format we expect for display
         translationResult = {
           word: selectedText.trim(),
-          translation: translationResult.translatedText,
-          definition: translationResult.details?.definitions?.[0],
-          examples: translationResult.details?.examples,
-          phonetic: translationResult.details?.phonetic
+          translation: translationResponse.translatedText,
+          definition: translationResponse.details?.definitions?.[0],
+          examples: translationResponse.details?.examples,
+          phonetic: translationResponse.details?.phonetic,
+          sourceLanguage: languageConfig.learning,
+          targetLanguage: languageConfig.native
         };
       }
     } else {
@@ -305,7 +307,9 @@ async function handleTextTranslation() {
         translation: translationResponse.translatedText,
         definition: translationResponse.details?.definitions?.[0],
         examples: translationResponse.details?.examples,
-        phonetic: translationResponse.details?.phonetic
+        phonetic: translationResponse.details?.phonetic,
+        sourceLanguage: languageConfig.learning,
+        targetLanguage: languageConfig.native
       };
     }
 

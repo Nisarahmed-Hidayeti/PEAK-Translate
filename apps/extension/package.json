@@ -1,0 +1,32 @@
+{
+  "name": "@peak-translation/extension",
+  "version": "0.1.0",
+  "description": "Firefox WebExtension for Peak Translation",
+  "main": "dist/background.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest"
+  },
+  "keywords": [
+    "webextension",
+    "firefox",
+    "translation",
+    "language-learning"
+  ],
+  "author": "Peak Translation Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "^0.0.202",
+    "@types/firefox-webext-browser": "^100.0.0",
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "browser": {
+    "./dist/background.js": "./dist/background.js"
+  }
+}

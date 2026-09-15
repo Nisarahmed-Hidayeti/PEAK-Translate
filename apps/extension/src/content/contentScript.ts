@@ -3,6 +3,34 @@
 // Declare the browser variable for TypeScript
 declare const browser: any;
 
+// Language code type
+type LanguageCode = 'tr' | 'en' | 'es' | 'fr' | 'de';
+
+// Text-to-speech function using Web Speech API
+function speakText(text: string, language: LanguageCode): void {
+  if (!('speechSynthesis' in window)) {
+    alert('Speech synthesis not supported in this browser');
+    return;
+  }
+
+  const synth = window.speechSynthesis;
+  if (synth.speaking) {
+    synth.cancel(); // Cancel any ongoing speech
+  }
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = language === 'tr' ? 'tr-TR' :
+                   language === 'en' ? 'en-US' :
+                   language === 'es' ? 'es-ES' :
+                   language === 'fr' ? 'fr-FR' :
+                   language === 'de' ? 'de-DE' : language;
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+  utterance.volume = 0.8;
+
+  synth.speak(utterance);
+}
+
 // Listen for messages from background script
 browser.runtime.onMessage.addListener((message: any, sender: any, sendResponse: any) => {
   if (message.type === 'GET_SELECTION') {
@@ -117,7 +145,9 @@ function showTranslationCard(translation: any) {
       // Implement actual TTS using browser speech synthesis
       const textToSpeak = translation.word || translation.translation;
       if (textToSpeak) {
-        speakText(textToSpeak, 'en'); // TODO: Get language from settings
+        // Use source language for word pronunciation, target language for translation
+        const language = translation.word ? translation.sourceLanguage : translation.targetLanguage;
+        speakText(textToSpeak, language);
       }
     });
   }
