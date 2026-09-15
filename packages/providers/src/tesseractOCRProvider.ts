@@ -46,7 +46,7 @@ export class TesseractOCRProvider implements OCRProvider {
         confidence: 0.85,
         language: 'en' as LanguageCode
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('OCR extraction error:', error);
       throw new Error(`OCR failed: ${error.message}`);
     }

@@ -1,0 +1,1 @@
+{"version":3,"file":"tesseractOCRProvider.d.ts","sourceRoot":"","sources":["../src/tesseractOCRProvider.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,YAAY,EAAE,MAAM,wBAAwB,CAAC;AAInE,qBAAa,oBAAqB,YAAW,WAAW;;IAmBhD,WAAW,CAAC,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC;QAC5C,IAAI,EAAE,MAAM,CAAC;QACb,UAAU,CAAC,EAAE,MAAM,CAAC;QACpB,QAAQ,CAAC,EAAE,YAAY,CAAC;KACzB,CAAC;CAiCH"}

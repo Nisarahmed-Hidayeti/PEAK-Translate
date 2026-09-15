@@ -4,7 +4,8 @@ import { LibreTranslateProvider } from './libretranslateProvider';
 export { MockTranslationProvider, LibreTranslateProvider };
 // OCR providers
 import { MockOCRProvider } from './mockOCRProvider';
-export { MockOCRProvider };
+import { TesseractOCRProvider } from './tesseractOCRProvider';
+export { MockOCRProvider, TesseractOCRProvider };
 // TTS providers
 import { MockTTSProvider } from './mockTTSProvider';
 import { WebSpeechTTSProvider } from './webSpeechTTSProvider';
@@ -15,6 +16,13 @@ export function createTranslationProvider(useMock = false) {
         return new MockTranslationProvider();
     }
     return new LibreTranslateProvider();
+}
+// Factory function to create OCR provider
+export function createOCRProvider(useMock = false) {
+    if (useMock) {
+        return new MockOCRProvider();
+    }
+    return new TesseractOCRProvider();
 }
 // Factory function to create TTS provider
 export function createTTSProvider(useMock = false) {
