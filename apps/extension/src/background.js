@@ -4,6 +4,9 @@
 // In a real build setup, these would be bundled or imported properly
 // For now, we'll use dynamic import or check availability
 
+// Import OCR provider factory (would be available in a real bundled setup)
+// For now, we'll define it here or import if available
+
 // Mock provider (same as in providers, but simplified for extension)
 class MockTranslationProvider {
   async translateText(text, sourceLang, targetLang) {
@@ -118,6 +121,34 @@ function createTranslationProvider(useMock = false) {
   return new LibreTranslateProvider();
 }
 
+// Factory function to create OCR provider (lazy loaded to avoid bundling issues)
+let ocrProviderInstance = null;
+function createOCRProvider(useMock = false) {
+  if (useMock) {
+    return new MockOCRProvider();
+  }
+
+  if (!ocrProviderInstance) {
+    // In a real implementation, we would dynamically import or load the TesseractOCRProvider
+    // For now, we'll create a placeholder that indicates where the real implementation would go
+    ocrProviderInstance = new (function() {
+      async function extractText(imageData) {
+        // This would be replaced with actual Tesseract.js implementation
+        // For now, return a mock result to show the structure
+        return {
+          text: '[OCR functionality would be implemented here with Tesseract.js]',
+          confidence: 0.8,
+          language: 'en'
+        };
+      }
+
+      return { extractText };
+    })();
+  }
+
+  return ocrProviderInstance;
+}
+
 // Default language settings
 let languageConfig = {
   native: 'tr',
@@ -130,8 +161,17 @@ const VOCABULARY_STORAGE_KEY = 'peak-translation-vocabulary';
 // Configuration flag - in production, this would come from build config or storage
 const USE_MOCK_PROVIDER = false; // Set to true for development/testing
 
-// Initialize provider
+// Initialize providers
 const provider = createTranslationProvider(USE_MOCK_PROVIDER);
+let ocrProvider = null;
+
+// Initialize OCR provider on demand
+async function getOCRProvider() {
+  if (!ocrProvider) {
+    ocrProvider = createOCRProvider(USE_MOCK_PROVIDER);
+  }
+  return ocrProvider;
+}
 
 // Load language settings from storage on startup
 browser.storage.sync.get(['native', 'learning']).then(result => {
@@ -164,10 +204,23 @@ browser.commands.onCommand.addListener((command) => {
   if (command === 'toggle-peak-translation') {
     handleTextTranslation();
   } else if (command === 'activate-ocr') {
-    // TODO: OCR mode
-    console.log('OCR mode activated');
+    handleOCRMode();
   }
 });
+
+// Function to handle OCR mode
+async function handleOCRMode() {
+  showNotification('OCR mode activated. Please select an area of the screen to perform OCR.');
+
+  // In a real implementation, we would:
+  // 1. Use the scripting API to inject a script that allows area selection
+  // 2. Capture the selected area as an image
+  // 3. Send that image to the OCR provider
+  // 4. Display the results
+
+  // For now, we'll show a placeholder notification
+  showNotification('OCR functionality would capture screen area and extract text here.');
+}
 
 // Handle messages from content script
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -235,6 +288,22 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
     });
 
+    return true; // Keep the message channel open for async response
+  }
+
+  if (message.type === 'OCR_IMAGE') {
+    // Handle OCR request from content script
+    getOCRProvider().then(provider => {
+      provider.extractText(message.imageData)
+        .then(result => {
+          sendResponse({status: 'success', data: result});
+        })
+        .catch(error => {
+          sendResponse({status: 'error', message: error.message});
+        });
+    }).catch(error => {
+      sendResponse({status: 'error', message: `OCR provider initialization failed: ${error.message}`});
+    });
     return true; // Keep the message channel open for async response
   }
 

@@ -5,7 +5,8 @@ export { MockTranslationProvider, LibreTranslateProvider };
 
 // OCR providers
 import { MockOCRProvider } from './mockOCRProvider';
-export { MockOCRProvider };
+import { TesseractOCRProvider } from './tesseractOCRProvider';
+export { MockOCRProvider, TesseractOCRProvider };
 
 // TTS providers
 import { MockTTSProvider } from './mockTTSProvider';
@@ -18,6 +19,14 @@ export function createTranslationProvider(useMock = false): any {
     return new MockTranslationProvider();
   }
   return new LibreTranslateProvider();
+}
+
+// Factory function to create OCR provider
+export function createOCRProvider(useMock = false): any {
+  if (useMock) {
+    return new MockOCRProvider();
+  }
+  return new TesseractOCRProvider();
 }
 
 // Factory function to create TTS provider

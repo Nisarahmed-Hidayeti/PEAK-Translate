@@ -119,7 +119,9 @@ function showTranslationCard(translation) {
             // Implement actual TTS using browser speech synthesis
             const textToSpeak = translation.word || translation.translation;
             if (textToSpeak) {
-                speakText(textToSpeak, 'en'); // TODO: Get language from settings
+                // Use source language for word pronunciation, target language for translation
+                const language = translation.word ? translation.sourceLanguage : translation.targetLanguage;
+                speakText(textToSpeak, language);
             }
         });
     }
