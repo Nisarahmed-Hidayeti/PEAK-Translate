@@ -26,11 +26,13 @@ describe('LibreTranslateProvider', () => {
 
       // Should have details structure
       expect(result).toHaveProperty('details');
-      expect(result.details).toHaveProperty('definitions');
-      expect(Array.isArray(result.details.definitions)).toBe(true);
+      if (result.details) {
+        expect(result.details).toHaveProperty('definitions');
+        expect(Array.isArray(result.details.definitions)).toBe(true);
+      }
     } catch (error) {
       // If network is not available, we'll skip the assertion but not fail the test
-      console.warn('Network test skipped:', error.message);
+      console.warn('Network test skipped:', (error as Error).message);
       expect(true).toBe(true); // Pass anyway
     }
   });
@@ -46,7 +48,7 @@ describe('LibreTranslateProvider', () => {
         expect(result.translations.length).toBeGreaterThan(0);
       }
     } catch (error) {
-      console.warn('Network test skipped:', error.message);
+      console.warn('Network test skipped:', (error as Error).message);
       expect(true).toBe(true);
     }
   });

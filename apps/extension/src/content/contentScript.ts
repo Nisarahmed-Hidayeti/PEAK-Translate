@@ -1,8 +1,5 @@
 // Content script for Peak Translation Firefox Extension
 
-// Declare the browser variable for TypeScript
-declare const browser: any;
-
 // Language code type
 type LanguageCode = 'tr' | 'en' | 'es' | 'fr' | 'de';
 
