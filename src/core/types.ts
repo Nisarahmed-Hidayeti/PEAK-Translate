@@ -1,64 +1,44 @@
-// Core types for Peak Translation
-
-export type SupportedLanguage = 'tr' | 'en' | 'es' | 'fr' | 'de';
-
-export interface LanguageInfo {
-  code: SupportedLanguage;
-  name: string;
-  nativeName: string;
-  ttsCode: string; // For text-to-speech
-}
-
-export interface TranslationRequest {
-  text: string;
-  sourceLanguage: SupportedLanguage | 'auto';
-  targetLanguage: SupportedLanguage;
-}
-
-export interface TranslationResult {
-  sourceText: string;
-  sourceLanguage: SupportedLanguage;
-  targetLanguage: SupportedLanguage;
-  translation: string;
-  confidence?: number;
-}
-
-export interface Definition {
-  text: string;
-  partOfSpeech?: string;
-}
-
-export interface ExampleSentence {
-  original: string;
-  translation?: string;
-}
-
-export interface PronunciationData {
-  available: boolean;
-  audioUrl?: string;
-  language: SupportedLanguage;
-}
+// Core types for Peak Translation extension
 
 export interface VocabularyItem {
   id: string;
   word: string;
   normalizedWord: string;
-  sourceLanguage: SupportedLanguage;
-  targetLanguage: SupportedLanguage;
-  translation?: string;
-  definitions?: Definition[];
-  examples?: ExampleSentence[];
+  sourceLanguage: string;
+  targetLanguage: string;
+  translation: string;
+  examples?: string[];
   context?: string;
-  sourceUrl?: string;
-  sourceTitle?: string;
-  pronunciation?: PronunciationData;
   createdAt: number;
   updatedAt: number;
+  pronunciation?: string;
+  audioAvailable?: boolean;
 }
 
 export interface ExtensionSettings {
-  nativeLanguage: SupportedLanguage;
-  learningLanguage: SupportedLanguage;
+  nativeLanguage: string;
+  learningLanguage: string;
   audioEnabled: boolean;
-  ocrLanguagePreference: SupportedLanguage | 'auto';
+  ocrLanguagePreference: string;
+}
+
+export interface TranslationRequest {
+  text: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+}
+
+export interface TranslationResult {
+  text: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+  pronunciation?: string;
+  examples?: string[];
+  confidence: number;
+}
+
+export interface TranslationProvider {
+  translate(request: TranslationRequest): Promise<TranslationResult>;
+  getSupportedLanguages(): Promise<string[]>;
+  getName(): string;
 }

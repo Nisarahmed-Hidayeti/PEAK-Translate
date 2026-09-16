@@ -1,9 +1,22 @@
 // Translation provider interface
-import type { TranslationRequest, TranslationResult } from '../../core/types';
-import type { SupportedLanguage } from '../../core/types';
+
+export interface TranslationRequest {
+  text: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+}
+
+export interface TranslationResult {
+  text: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+  pronunciation?: string;
+  examples?: string[];
+  confidence: number;
+}
 
 export interface TranslationProvider {
   translate(request: TranslationRequest): Promise<TranslationResult>;
-  supportedLanguages(): SupportedLanguage[];
+  getSupportedLanguages(): Promise<string[]>;
   getName(): string;
 }

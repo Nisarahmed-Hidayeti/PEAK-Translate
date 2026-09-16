@@ -1,56 +1,65 @@
 // Mock translation provider for development
 
-import type { TranslationProvider, TranslationRequest, TranslationResult } from './translation-provider';
-import type { SupportedLanguage } from '../../core/types';
+import { TranslationProvider, TranslationRequest, TranslationResult } from './translation-provider';
 
 export class MockTranslationProvider implements TranslationProvider {
-  private name = 'Mock Translator';
+  private mockTranslations: Record<string, Record<string, string>> = {
+    en: {
+      tr: {
+        hello: "merhaba",
+        world: "dünya",
+        test: "test",
+        polished: "ilgilendirici"
+      }
+    },
+    tr: {
+      en: {
+        merhaba: "hello",
+        dünya: "world",
+        test: "test",
+        polished: "polished"
+      }
+    }
+  };
 
   async translate(request: TranslationRequest): Promise<TranslationResult> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    // Simple mock translations
-    const mockTranslations: Record<string, Record<string, string>> = {
-      tr: {
-        en: {
-          polished: 'özenli · kusursuz',
-          hello: 'merhaba',
-          world: 'dünya',
-          test: 'test'
-        }
-      },
-      en: {
-        tr: {
-          polished: 'refined, sophisticated',
-          merhaba: 'hello',
-          dünya: 'world',
-          test: 'test'
-        }
-      }
-    };
+    const { text, sourceLanguage, targetLanguage } = request;
     
-    const sourceLang = request.sourceLanguage !== 'auto' ? request.sourceLanguage : request.targetLanguage === 'en' ? 'tr' : 'en';
-    const targetLang = request.targetLanguage;
-    
-    // Get translation or return original text if not found
-    const translation = mockTranslations[sourceLang]?.[targetLang]?.[request.text.toLowerCase()] || 
-                      `${request.text} [translated to ${targetLang}]`;
+    // Simple mock translation logic
+    let translatedText = text;
+    if (this.mockTranslations[sourceLanguage]?.[targetLanguage]?.[text.toLowerCase()]) {
+      translatedText = this.mockTranslations[sourceLanguage][targetLanguage][text.toLowerCase()];
+    } else if (text.toLowerCase() === 'hello' && targetLanguage === 'tr') {
+      translatedText = 'merhaba';
+    } else if (text.toLowerCase() === 'world' && targetLanguage === 'tr') {
+      translatedText = 'dünya';
+    } else if (text.toLowerCase() === 'test' && targetLanguage === 'tr') {
+      translatedText = 'test';
+    } else if (text.toLowerCase() === 'polished' && targetLanguage === 'tr') {
+      translatedText = 'ilgilendirici';
+    } else {
+      // Fallback: just return the text with a prefix indicating it's mocked
+      translatedText = `[Mock: ${text}]`;
+    }
     
     return {
-      sourceText: request.text,
-      sourceLanguage: sourceLang,
-      targetLanguage: targetLang,
-      translation: translation,
-      confidence: 0.9
+      text: translatedText,
+      sourceLanguage,
+      targetLanguage,
+      pronunciation: undefined,
+      examples: [],
+      confidence: 0.95
     };
   }
 
-  supportedLanguages(): SupportedLanguage[] {
-    return ['tr', 'en', 'es', 'fr', 'de'];
+  async getSupportedLanguages(): Promise<string[]> {
+    return ['en', 'tr', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'zh', 'ja', 'ko', 'ar'];
   }
 
   getName(): string {
-    return this.name;
+    return 'Mock Translation Provider';
   }
 }
