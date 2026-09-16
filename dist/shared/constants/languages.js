@@ -1,4 +1,3 @@
-// Language constants for Peak Translation
 export const SUPPORTED_LANGUAGES = ['tr', 'en', 'es', 'fr', 'de'];
 export const LANGUAGE_INFO = {
     tr: {

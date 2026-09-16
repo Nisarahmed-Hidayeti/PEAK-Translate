@@ -22,7 +22,8 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "types": ["webextension-polyfill"]
   },
   "include": [
     "src/**/*"

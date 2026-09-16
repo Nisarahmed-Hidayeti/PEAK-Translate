@@ -15,6 +15,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
         }
         return true;
     }
+    // Return false to indicate we don't want to send a response (or true if we do)
+    return false;
 });
 // Function to create and show translation card
 function showTranslationCard(text, sourceLang, targetLang) {
