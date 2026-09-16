@@ -19,12 +19,11 @@
   "author": "Peak Translation Team",
   "license": "MIT",
   "devDependencies": {
-    "@types/browserify": "^17.0.0",
     "@types/webextension-polyfill": "^0.8.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.0.0",
-    "typescript": "^5.0.0",
+    "typescript": "^5.4.5",
     "webextension-polyfill": "^0.10.0"
   }
 }

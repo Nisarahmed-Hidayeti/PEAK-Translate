@@ -1,4 +1,6 @@
 // Language constants for Peak Translation
+import type { SupportedLanguage } from '../../core/types';
+import type { LanguageInfo } from '../../core/types';
 
 export const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['tr', 'en', 'es', 'fr', 'de'];
 

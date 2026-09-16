@@ -1,7 +1,7 @@
 // Mock translation provider for development
 
-import { TranslationProvider, TranslationRequest, TranslationResult } from './translation-provider';
-import { SupportedLanguage } from '../../core/types';
+import type { TranslationProvider, TranslationRequest, TranslationResult } from './translation-provider';
+import type { SupportedLanguage } from '../../core/types';
 
 export class MockTranslationProvider implements TranslationProvider {
   private name = 'Mock Translator';

@@ -1,8 +1,8 @@
 // Provider manager for handling translation providers
 
-import { TranslationProvider } from '../providers/translation/translation-provider';
+import type { TranslationProvider } from '../providers/translation/translation-provider';
 import { MockTranslationProvider } from '../providers/translation/mock-translation-provider';
-import { TranslationRequest, TranslationResult } from '../../core/types';
+import type { TranslationRequest, TranslationResult } from '../../core/types';
 
 export class ProviderManager {
   private providers: TranslationProvider[] = [];

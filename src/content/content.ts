@@ -1,7 +1,7 @@
 // Content script for Peak Translation extension
 
 // Listen for messages from background script
-browser.runtime.onMessage.addListener((message, sender) => {
+browser.runtime.onMessage.addListener((message: any, sender: any) => {
   if (message.type === "SHOW_TRANSLATION_CARD") {
     showTranslationCard(message.text, message.sourceLanguage, message.targetLanguage);
     return true;
@@ -14,6 +14,8 @@ browser.runtime.onMessage.addListener((message, sender) => {
     }
     return true;
   }
+  // Return false to indicate we don't want to send a response (or true if we do)
+  return false;
 });
 
 // Function to create and show translation card
