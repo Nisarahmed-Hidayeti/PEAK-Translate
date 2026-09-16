@@ -1,0 +1,30 @@
+{
+  "name": "peak-translation",
+  "version": "0.1.0",
+  "description": "A privacy-first Firefox extension for language learning",
+  "main": "src/content/content.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "firefox",
+    "extension",
+    "translation",
+    "language-learning"
+  ],
+  "author": "Peak Translation Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/browserify": "^17.0.0",
+    "@types/webextension-polyfill": "^0.8.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "webextension-polyfill": "^0.10.0"
+  }
+}
