@@ -1,13 +1,17 @@
 // Provider manager for handling translation providers
-import { MockTranslationProvider } from '../providers/translation/mock-translation-provider';
+import { LibreTranslateProvider } from "../../providers/libre-translate-provider";
+import { MockTranslationProvider } from "../../providers/translation/mock-translation-provider";
 export class ProviderManager {
     constructor() {
         this.providers = [];
         this.primaryProvider = null;
-        // Initialize with mock provider for development
+        // Initialize with LibreTranslate provider for production
+        const libreTranslateProvider = new LibreTranslateProvider();
+        this.providers.push(libreTranslateProvider);
+        this.primaryProvider = libreTranslateProvider;
+        // Also add mock provider as fallback
         const mockProvider = new MockTranslationProvider();
         this.providers.push(mockProvider);
-        this.primaryProvider = mockProvider;
     }
     addProvider(provider) {
         this.providers.push(provider);
@@ -20,7 +24,7 @@ export class ProviderManager {
     }
     async translate(request) {
         if (!this.primaryProvider) {
-            throw new Error('No translation provider available');
+            throw new Error("No translation provider available");
         }
         try {
             return await this.primaryProvider.translate(request);

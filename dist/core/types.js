@@ -1,3 +1,3 @@
-// Core types for Peak Translation
+// Core types for Peak Translation extension
 export {};
 //# sourceMappingURL=types.js.map

@@ -1,11 +1,11 @@
 // Vocabulary storage service
 
-import type { VocabularyItem, ExtensionSettings } from '../../core/types';
+import type { VocabularyItem, ExtensionSettings } from "../core/types";
 
 const STORAGE_KEYS = {
-  VOCABULARY: 'peak-translation-vocabulary',
-  SETTINGS: 'peak-translation-settings',
-  VERSION: 'peak-translation-version'
+  VOCABULARY: "peak-translation-vocabulary",
+  SETTINGS: "peak-translation-settings",
+  VERSION: "peak-translation-version"
 };
 
 const CURRENT_VERSION = 1;
@@ -27,19 +27,35 @@ export class VocabularyStore {
   private initializeStorage(): void {
     // Initialize storage if needed
     // Note: In content scripts, we need to check if we're in a context where browser.storage is available
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
-      browser.storage.local.get(STORAGE_KEYS.VERSION).then((result) => {
-        if (!result[STORAGE_KEYS.VERSION]) {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
+      browser.storage.local.get(STORAGE_KEYS.VERSION).then((result: { [key: string]: number }) => {
+        const version = result[STORAGE_KEYS.VERSION];
+        if (version === undefined) {
           browser.storage.local.set({ [STORAGE_KEYS.VERSION]: CURRENT_VERSION });
           
           // Initialize empty vocabulary and default settings
           browser.storage.local.set({
             [STORAGE_KEYS.VOCABULARY]: [],
             [STORAGE_KEYS.SETTINGS]: {
-              nativeLanguage: 'tr',
-              learningLanguage: 'en',
+              nativeLanguage: "tr",
+              learningLanguage: "en",
               audioEnabled: true,
-              ocrLanguagePreference: 'auto'
+              ocrLanguagePreference: "auto"
+            }
+          });
+        }
+      });
+      
+      // Also initialize default settings if they don't exist
+      browser.storage.local.get(STORAGE_KEYS.SETTINGS).then((result: { [key: string]: ExtensionSettings }) => {
+        const settings = result[STORAGE_KEYS.SETTINGS];
+        if (settings === undefined) {
+          browser.storage.local.set({
+            [STORAGE_KEYS.SETTINGS]: {
+              nativeLanguage: "tr",
+              learningLanguage: "en",
+              audioEnabled: true,
+              ocrLanguagePreference: "auto"
             }
           });
         }
@@ -48,15 +64,16 @@ export class VocabularyStore {
   }
 
   async getVocabulary(): Promise<VocabularyItem[]> {
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
       const result = await browser.storage.local.get(STORAGE_KEYS.VOCABULARY);
-      return result[STORAGE_KEYS.VOCABULARY] || [];
+      const vocabulary = result[STORAGE_KEYS.VOCABULARY] as VocabularyItem[] | undefined;
+      return vocabulary || [];
     }
     return [];
   }
 
   async saveVocabularyItem(item: VocabularyItem): Promise<void> {
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
       const vocabulary = await this.getVocabulary();
       
       // Check if item already exists (by normalized word and language pair)
@@ -83,7 +100,7 @@ export class VocabularyStore {
   }
 
   async removeVocabularyItem(id: string): Promise<void> {
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
       const vocabulary = await this.getVocabulary();
       const filtered = vocabulary.filter(item => item.id !== id);
       await browser.storage.local.set({ [STORAGE_KEYS.VOCABULARY]: filtered });
@@ -91,37 +108,38 @@ export class VocabularyStore {
   }
 
   async clearVocabulary(): Promise<void> {
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
       await browser.storage.local.set({ [STORAGE_KEYS.VOCABULARY]: [] });
     }
   }
 
   async getSettings(): Promise<ExtensionSettings> {
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
       const result = await browser.storage.local.get(STORAGE_KEYS.SETTINGS);
-      return result[STORAGE_KEYS.SETTINGS] || {
-        nativeLanguage: 'tr',
-        learningLanguage: 'en',
+      const settings = result[STORAGE_KEYS.SETTINGS] as ExtensionSettings | undefined;
+      return settings || {
+        nativeLanguage: "tr",
+        learningLanguage: "en",
         audioEnabled: true,
-        ocrLanguagePreference: 'auto'
+        ocrLanguagePreference: "auto"
       };
     }
     return {
-      nativeLanguage: 'tr',
-      learningLanguage: 'en',
+      nativeLanguage: "tr",
+      learningLanguage: "en",
       audioEnabled: true,
-      ocrLanguagePreference: 'auto'
+      ocrLanguagePreference: "auto"
     };
   }
 
   async saveSettings(settings: ExtensionSettings): Promise<void> {
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
       await browser.storage.local.set({ [STORAGE_KEYS.SETTINGS]: settings });
     }
   }
 
   async clearAllData(): Promise<void> {
-    if (typeof browser !== 'undefined' && typeof browser.storage !== 'undefined') {
+    if (typeof browser !== "undefined" && typeof browser.storage !== "undefined") {
       await browser.storage.local.remove([
         STORAGE_KEYS.VOCABULARY,
         STORAGE_KEYS.SETTINGS,

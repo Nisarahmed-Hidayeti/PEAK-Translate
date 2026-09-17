@@ -1,5 +1,5 @@
-import type { TranslationProvider } from '../providers/translation/translation-provider';
-import type { TranslationRequest, TranslationResult } from '../../core/types';
+import type { TranslationProvider } from "../../providers/translation/translation-provider";
+import type { TranslationRequest, TranslationResult } from "../../core/types";
 export declare class ProviderManager {
     private providers;
     private primaryProvider;

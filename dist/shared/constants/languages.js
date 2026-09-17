@@ -1,34 +1,34 @@
-export const SUPPORTED_LANGUAGES = ['tr', 'en', 'es', 'fr', 'de'];
+export const SUPPORTED_LANGUAGES = ["tr", "en", "es", "fr", "de"];
 export const LANGUAGE_INFO = {
     tr: {
-        code: 'tr',
-        name: 'Turkish',
-        nativeName: 'Türkçe',
-        ttsCode: 'tr'
+        code: "tr",
+        name: "Turkish",
+        nativeName: "Türkçe",
+        ttsCode: "tr"
     },
     en: {
-        code: 'en',
-        name: 'English',
-        nativeName: 'English',
-        ttsCode: 'en'
+        code: "en",
+        name: "English",
+        nativeName: "English",
+        ttsCode: "en"
     },
     es: {
-        code: 'es',
-        name: 'Spanish',
-        nativeName: 'Español',
-        ttsCode: 'es'
+        code: "es",
+        name: "Spanish",
+        nativeName: "Español",
+        ttsCode: "es"
     },
     fr: {
-        code: 'fr',
-        name: 'French',
-        nativeName: 'Français',
-        ttsCode: 'fr'
+        code: "fr",
+        name: "French",
+        nativeName: "Français",
+        ttsCode: "fr"
     },
     de: {
-        code: 'de',
-        name: 'German',
-        nativeName: 'Deutsch',
-        ttsCode: 'de'
+        code: "de",
+        name: "German",
+        nativeName: "Deutsch",
+        ttsCode: "de"
     }
 };
 export function getLanguageInfo(code) {

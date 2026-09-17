@@ -1,9 +1,8 @@
-import type { TranslationProvider, TranslationRequest, TranslationResult } from './translation-provider';
-import type { SupportedLanguage } from '../../core/types';
+import { TranslationProvider, TranslationRequest, TranslationResult } from "./translation-provider";
 export declare class MockTranslationProvider implements TranslationProvider {
-    private name;
+    private mockTranslations;
     translate(request: TranslationRequest): Promise<TranslationResult>;
-    supportedLanguages(): SupportedLanguage[];
+    getSupportedLanguages(): Promise<string[]>;
     getName(): string;
 }
 //# sourceMappingURL=mock-translation-provider.d.ts.map

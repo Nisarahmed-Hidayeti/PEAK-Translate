@@ -1,0 +1,156 @@
+.options-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.options-container h1 {
+    text-align: center;
+    color: #4285f4;
+    margin-bottom: 20px;
+}
+
+.form-group, .option-group {
+    margin-bottom: 15px;
+}
+
+.form-group label, .option-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group select,
+.form-group input[type="checkbox"],
+.option-group select,
+.option-group input[type="checkbox"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#save-options {
+    width: 100%;
+    padding: 12px;
+    background-color: #34a853;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#save-options:hover {
+    background-color: #2e7d32;
+}
+
+#vocabulary-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+#vocabulary-section h2 {
+    margin-top: 0;
+}
+
+#vocabulary-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#vocabulary-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#vocabulary-list li:last-child {
+    border-bottom: none;
+}
+
+.remove-btn {
+    background-color: #ea4335;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #d3302c;
+}
+
+.vocabulary-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fafafa;
+}
+
+.vocabulary-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.vocabulary-item-word {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #4285f4;
+    margin-right: 10px;
+}
+
+.vocabulary-item-translation {
+    font-style: italic;
+    color: #34a853;
+    font-size: 1.1em;
+}
+
+.vocabulary-item-pronunciation {
+    background-color: #e8f0fe;
+    color: #4285f4;
+    font-size: 0.9em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-family: monospace;
+}
+
+.vocabulary-item-definitions,
+.vocabulary-item-examples {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.vocabulary-item-definitions .definition,
+.vocabulary-item-examples .example {
+    margin: 4px 0;
+    line-height: 1.4;
+    color: #555;
+}
+
+.vocabulary-item-context {
+    font-style: italic;
+    color: #666;
+    margin: 10px 0;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.vocabulary-item-timestamps {
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+}

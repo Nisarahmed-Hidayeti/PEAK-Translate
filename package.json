@@ -4,7 +4,7 @@
   "description": "A privacy-first Firefox extension for language learning",
   "main": "src/content/content.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && copyfiles -u 1 src/**/*.html src/**/*.css dist/",
     "dev": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.ts",
@@ -19,11 +19,16 @@
   "author": "Peak Translation Team",
   "license": "MIT",
   "devDependencies": {
-    "@types/webextension-polyfill": "^0.8.0",
+    "@types/webextension-polyfill": "^0.8.3",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.0.0",
     "typescript": "^5.4.5",
+    "web-ext": "^10.6.0",
     "webextension-polyfill": "^0.10.0"
+  },
+  "dependencies": {
+    "tesseract.js": "^7.0.0"
   }
 }

@@ -1,4 +1,4 @@
-import type { VocabularyItem, ExtensionSettings } from '../../core/types';
+import type { VocabularyItem, ExtensionSettings } from "../core/types";
 export declare class VocabularyStore {
     private static instance;
     private constructor();
