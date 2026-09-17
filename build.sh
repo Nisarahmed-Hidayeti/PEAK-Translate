@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Copy static files
-copyfiles -u 1 src/**/*.html src/**/*.css src/manifest.json dist/
+npx copyfiles -u 1 src/**/*.html src/**/*.css src/manifest.json dist/
 if [ $? -ne 0 ]; then
   echo "File copying failed!"
   exit 1

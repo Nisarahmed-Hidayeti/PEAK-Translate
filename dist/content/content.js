@@ -25,6 +25,16 @@ browser.runtime.onMessage.addListener((message, sender) => {
         }
         return true;
     }
+    else if (message.type === "GET_ACTUAL_SELECTION") {
+        // Return the actual selected text
+        const selection = window.getSelection();
+        const selectedText = selection ? selection.toString().trim() : "";
+        browser.runtime.sendMessage({
+            type: "ACTUAL_SELECTION",
+            text: selectedText
+        });
+        return true;
+    }
     else if (message.type === "TRANSLATE_OCR_TEXT") {
         // Translate the OCR text and show translation card
         browser.runtime.sendMessage({
@@ -75,7 +85,7 @@ function showTranslationCard(text, sourceLang, targetLang, translation, examples
     const audioButton = card.querySelector(".peak-translation-card-audio-button");
     const saveButton = card.querySelector(".peak-translation-card-save-button");
     // Audio button click handler
-    audioButton.addEventListener("click", () => {
+    audioButton?.addEventListener("click", () => {
         if (pronunciation) {
             // TODO: Implement actual audio playback using Web Speech API
             alert(`Audio playback: ${pronunciation}`);
@@ -85,7 +95,7 @@ function showTranslationCard(text, sourceLang, targetLang, translation, examples
         }
     });
     // Save button click handler
-    saveButton.addEventListener("click", async () => {
+    saveButton?.addEventListener("click", async () => {
         // Send message to background script to save vocabulary item
         try {
             await browser.runtime.sendMessage({
@@ -105,16 +115,18 @@ function showTranslationCard(text, sourceLang, targetLang, translation, examples
                 }
             });
             // Update UI to show saved state
-            saveButton.textContent = "★ Saved";
-            saveButton.setAttribute("aria-label", "Saved");
-            saveButton.disabled = true;
-            // Show temporary success message
-            const originalText = saveButton.textContent;
-            saveButton.textContent = "✓ Saved!";
-            setTimeout(() => {
-                saveButton.textContent = originalText;
-                saveButton.disabled = false;
-            }, 2000);
+            if (saveButton) {
+                saveButton.textContent = "★ Saved";
+                saveButton.setAttribute("aria-label", "Saved");
+                saveButton.disabled = true;
+                // Show temporary success message
+                const originalText = saveButton.textContent;
+                saveButton.textContent = "✓ Saved!";
+                setTimeout(() => {
+                    saveButton.textContent = originalText;
+                    saveButton.disabled = false;
+                }, 2000);
+            }
         }
         catch (error) {
             console.error("Failed to save vocabulary item:", error);
@@ -152,7 +164,7 @@ function showOCRResult(text, sourceLang, targetLang) {
     // Add event listeners
     const translateButton = card.querySelector(".peak-translation-card-translate-button");
     // Translate button click handler
-    translateButton.addEventListener("click", () => {
+    translateButton?.addEventListener("click", () => {
         // Send message to background script to translate the OCR text
         browser.runtime.sendMessage({
             type: "TRANSLATE_OCR_TEXT",
@@ -161,8 +173,10 @@ function showOCRResult(text, sourceLang, targetLang) {
             targetLanguage: targetLang
         });
         // Change button to show translating state
-        translateButton.textContent = "Translating...";
-        translateButton.disabled = true;
+        if (translateButton) {
+            translateButton.textContent = "Translating...";
+            translateButton.disabled = true;
+        }
     });
 }
 // Function to remove existing translation card

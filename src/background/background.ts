@@ -1,9 +1,9 @@
 // Background script for Peak Translation extension
 
-import { ProviderManager } from "../core/translation/provider-manager.js";
-import { OCRProviderImpl } from "../providers/ocr/ocr-provider.js";
-import { DefinitionProviderManager } from "../core/definitions/provider-manager.js";
-import { ExampleProviderManager } from "../core/examples/provider-manager.js";
+import { ProviderManager } from "../core/translation/provider-manager";
+import { OCRProviderImpl } from "../providers/ocr/ocr-provider";
+import { DefinitionProviderManager } from "../core/definitions/provider-manager";
+import { ExampleProviderManager } from "../core/examples/provider-manager";
 
 // Initialize provider managers
 const providerManager = new ProviderManager();
@@ -33,7 +33,7 @@ browser.runtime.onInstalled.addListener(() => {
 });
 
 // Handle context menu clicks
-browser.contextMenus.onClicked.addListener(async (info) => {
+browser.contextMenus.onClicked.addListener(async (info: any) => {
   if (!info.menuItemId) return;
 
   // Get the active tab to send messages to content script
@@ -59,7 +59,7 @@ browser.contextMenus.onClicked.addListener(async (info) => {
       browser.tabs.sendMessage(tab.id, {
         type: "SHOW_OCR_RESULT",
         text: ocrText,
-        sourceLanguage: "auto", // We don't know the source language yet
+        sourceLanguage: "auto",
         targetLanguage: browser.i18n.getMessage("@ui_language") || "en"
       });
     } catch (error) {
@@ -75,7 +75,7 @@ browser.contextMenus.onClicked.addListener(async (info) => {
 });
 
 // Handle keyboard command
-browser.commands.onCommand.addListener(async (command) => {
+browser.commands.onCommand.addListener(async (command: string) => {
   if (command === "translate-selection") {
     // Get active tab and ask content script for selected text
     const tabs = await browser.tabs.query({active: true, currentWindow: true});
@@ -89,7 +89,7 @@ browser.commands.onCommand.addListener(async (command) => {
 });
 
 // Listen for messages from content script
-browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener(async (message: any, sender: any, sendResponse: any) => {
   // Get the tab ID from sender
   const tabId = sender.tab?.id;
   if (!tabId) return false;
@@ -185,7 +185,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   } else if (message.type === "SAVE_VOCABULARY_ITEM") {
     // Save vocabulary item to storage
     try {
-      const { VocabularyStore } = await import("../storage/vocabulary-store.js");
+      const { VocabularyStore } = await import("../storage/vocabulary-store");
       await VocabularyStore.getInstance().saveVocabularyItem(message.item);
       sendResponse({ success: true });
     } catch (error) {
@@ -258,7 +258,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 });
 
 // Function to get translation and show card
-async function getTranslationAndShowCard(text, sourceLanguage, targetLanguage, tabId) {
+async function getTranslationAndShowCard(text: string, sourceLanguage: string, targetLanguage: string, tabId: number) {
   try {
     const translationResult = await providerManager.translate({
       text,

@@ -1,7 +1,7 @@
 // Content script for Peak Translation extension
 
 // Listen for messages from background script
-browser.runtime.onMessage.addListener((message, sender) => {
+browser.runtime.onMessage.addListener((message: any, sender: any) => {
   if (message.type === "SHOW_TRANSLATION_CARD") {
     showTranslationCard(message.text, message.sourceLanguage, message.targetLanguage, message.translation, message.examples, message.definition, message.pronunciation);
     return true;
@@ -46,7 +46,7 @@ browser.runtime.onMessage.addListener((message, sender) => {
 });
 
 // Function to create and show translation card
-function showTranslationCard(text, sourceLang, targetLang, translation, examples = [], definitions = [], pronunciation) {
+function showTranslationCard(text: any, sourceLang: any, targetLang: any, translation: any, examples: any[] = [], definitions: any[] = [], pronunciation: any) {
   // Remove any existing translation card
   removeExistingTranslationCard();
 
@@ -83,11 +83,11 @@ function showTranslationCard(text, sourceLang, targetLang, translation, examples
   document.body.appendChild(card);
 
   // Add event listeners
-  const audioButton = card.querySelector(".peak-translation-card-audio-button");
-  const saveButton = card.querySelector(".peak-translation-card-save-button");
+  const audioButton = card.querySelector(".peak-translation-card-audio-button") as HTMLButtonElement | null;
+  const saveButton = card.querySelector(".peak-translation-card-save-button") as HTMLButtonElement | null;
 
   // Audio button click handler
-  audioButton.addEventListener("click", () => {
+  audioButton?.addEventListener("click", () => {
     if (pronunciation) {
       // TODO: Implement actual audio playback using Web Speech API
       alert(`Audio playback: ${pronunciation}`);
@@ -97,7 +97,7 @@ function showTranslationCard(text, sourceLang, targetLang, translation, examples
   });
 
   // Save button click handler
-  saveButton.addEventListener("click", async () => {
+  saveButton?.addEventListener("click", async () => {
     // Send message to background script to save vocabulary item
     try {
       await browser.runtime.sendMessage({
@@ -118,17 +118,19 @@ function showTranslationCard(text, sourceLang, targetLang, translation, examples
       });
 
       // Update UI to show saved state
-      saveButton.textContent = "★ Saved";
-      saveButton.setAttribute("aria-label", "Saved");
-      saveButton.disabled = true;
+      if (saveButton) {
+        saveButton.textContent = "★ Saved";
+        saveButton.setAttribute("aria-label", "Saved");
+        saveButton.disabled = true;
 
-      // Show temporary success message
-      const originalText = saveButton.textContent;
-      saveButton.textContent = "✓ Saved!";
-      setTimeout(() => {
-        saveButton.textContent = originalText;
-        saveButton.disabled = false;
-      }, 2000);
+        // Show temporary success message
+        const originalText = saveButton.textContent;
+        saveButton.textContent = "✓ Saved!";
+        setTimeout(() => {
+          saveButton.textContent = originalText;
+          saveButton.disabled = false;
+        }, 2000);
+      }
     } catch (error) {
       console.error("Failed to save vocabulary item:", error);
       alert("Failed to save vocabulary item. Please try again.");
@@ -137,7 +139,7 @@ function showTranslationCard(text, sourceLang, targetLang, translation, examples
 }
 
 // Function to create and show OCR result card
-function showOCRResult(text, sourceLang, targetLang) {
+function showOCRResult(text: any, sourceLang: any, targetLang: any) {
   // Remove any existing translation card
   removeExistingTranslationCard();
 
@@ -168,10 +170,10 @@ function showOCRResult(text, sourceLang, targetLang) {
   document.body.appendChild(card);
 
   // Add event listeners
-  const translateButton = card.querySelector(".peak-translation-card-translate-button");
+  const translateButton = card.querySelector(".peak-translation-card-translate-button") as HTMLButtonElement | null;
 
   // Translate button click handler
-  translateButton.addEventListener("click", () => {
+  translateButton?.addEventListener("click", () => {
     // Send message to background script to translate the OCR text
     browser.runtime.sendMessage({
       type: "TRANSLATE_OCR_TEXT",
@@ -181,8 +183,10 @@ function showOCRResult(text, sourceLang, targetLang) {
     });
 
     // Change button to show translating state
-    translateButton.textContent = "Translating...";
-    translateButton.disabled = true;
+    if (translateButton) {
+      translateButton.textContent = "Translating...";
+      translateButton.disabled = true;
+    }
   });
 }
 
@@ -195,7 +199,7 @@ function removeExistingTranslationCard() {
 }
 
 // Function to position card near selection
-function positionCardNearSelection(card) {
+function positionCardNearSelection(card: any) {
   const selection = window.getSelection();
   if (!selection || !selection.rangeCount) {
     // Fallback to center of viewport
