@@ -1,0 +1,92 @@
+#peak-translation-popup {
+    font-family: Arial, sans-serif;
+    position: fixed;
+    z-index: 999999;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    padding: 12px;
+    width: 280px;
+    max-width: 90vw;
+    box-sizing: border-box;
+}
+
+#peak-translation-popup #word-display {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1.2em;
+}
+
+#peak-translation-popup #translation {
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+#peak-translation-popup #definition {
+    margin-bottom: 8px;
+    color: #34495e;
+    line-height: 1.4;
+}
+
+#peak-translation-popup #examples {
+    margin-bottom: 8px;
+}
+
+#peak-translation-popup #examples strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #2c3e50;
+}
+
+#peak-translation-popup #examples ul {
+    margin: 0 0 8px 20px;
+    padding: 0;
+    list-style-type: disc;
+}
+
+#peak-translation-popup #examples li {
+    margin-bottom: 4px;
+    color: #7f8c8d;
+    font-size: 0.9em;
+}
+
+#peak-translation-popup #pronounce-button {
+    display: block;
+    margin: 0 auto;
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.2s;
+}
+
+#peak-translation-popup #pronounce-button:hover {
+    background: #2980b9;
+}
+
+/* Loading state styles */
+#peak-translation-popup div[style*="text-align: center; padding: 20px; color: #666;"] {
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    #peak-translation-popup {
+        width: 90vw;
+        max-width: 90vw;
+        padding: 10px;
+    }
+
+    #peak-translation-popup #word-display {
+        font-size: 1.1em;
+    }
+
+    #peak-translation-popup #pronounce-button {
+        padding: 5px 10px;
+        font-size: 0.85em;
+    }
+}
