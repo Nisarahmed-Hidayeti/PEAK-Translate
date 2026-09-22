@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Peak Translation",
+  "version": "0.1.0",
+  "description": "A privacy-first Firefox extension for language learning",
+  "author": "Peak Translation Team",
+
+  "icons": {
+    "48": "dist/icons/icon-48.png",
+    "96": "dist/icons/icon-96.png"
+  },
+
+  "permissions": [
+    "storage",
+    "contextMenus"
+  ],
+
+  "host_permissions": [
+    "https://api.dictionaryapi.dev/*",
+    "https://libretranslate.de/*"
+  ],
+
+  "background": {
+    "service_worker": "dist/background/background.js",
+    "type": "module"
+  },
+
+  "action": {
+    "default_icon": {
+      "48": "dist/icons/icon-48.png"
+    },
+    "default_title": "Peak Translation",
+    "default_popup": "dist/popup/popup.html"
+  },
+
+  "options_ui": {
+    "page": "dist/options/options.html",
+    "browser_style": true
+  },
+
+  "commands": {
+    "translate-selection": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Translate selected text"
+    }
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["dist/content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "peak-translation@example.com",
+      "strict_min_version": "109.0"
+    }
+  }
+}

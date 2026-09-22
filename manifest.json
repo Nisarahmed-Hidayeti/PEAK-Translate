@@ -1,0 +1,59 @@
+{
+  "manifest_version": 2,
+  "name": "Peak Translation",
+  "version": "0.1.0",
+  "description": "Understand. Learn. Remember. A privacy-first language learning layer for the web.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab"
+  ],
+  "background": {
+    "scripts": ["dist/background/background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_title": "Peak Translation",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    },
+    "default_popup": "dist/popup/popup.html"
+  },
+  "options_ui": {
+    "page": "dist/options/options.html",
+    "browser_style": true
+  },
+  "commands": {
+    "translate-selection": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Translate selected text with Peak Translation"
+    }
+  },
+  "web_accessible_resources": [
+    "dist/popup/popup.html",
+    "dist/popup/popup.css",
+    "dist/popup/popup.js",
+    "dist/options/options.html",
+    "dist/options/options.css",
+    "dist/options/options.js",
+    "icons/icon-16.png",
+    "icons/icon-32.png",
+    "icons/icon-48.png",
+    "icons/icon-96.png"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "peak-translation@example.com",
+      "strict_min_version": "102.0"
+    }
+  }
+}
