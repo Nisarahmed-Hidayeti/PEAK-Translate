@@ -19,8 +19,7 @@
     "storage"
   ],
   "background": {
-    "scripts": ["background.js"],
-    "type": "module"
+    "scripts": ["background.js"]
   },
   "content_scripts": [
     {
