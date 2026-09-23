@@ -178,7 +178,7 @@ function updatePopupContent(word, turkishTranslation, definition, examples) {
   const pronounceButton = popup.querySelector('#peak-pronounce-button');
   if (pronounceButton) {
     pronounceButton.addEventListener('click', () => {
-      speakWord(word);
+      speakWord(word, pronounceButton);
     });
   }
 
