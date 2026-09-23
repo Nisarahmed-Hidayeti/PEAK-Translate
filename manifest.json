@@ -9,6 +9,7 @@
   },
   "action": {
     "default_title": "Peak Translation",
+    "default_popup": "popup.html",
     "default_icon": {
       "48": "icons/icon48.png",
       "96": "icons/icon96.png"
