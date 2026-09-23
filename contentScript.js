@@ -215,7 +215,7 @@ function updatePopupContent(word, turkishTranslation, definition, examples) {
 }
 
 // Function to speak word using Web Speech API
-function speakWord(word) {
+function speakWord(word, buttonElement = null) {
   if ('speechSynthesis' in window) {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
@@ -223,6 +223,36 @@ function speakWord(word) {
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = 'en-US';
     utterance.rate = 0.8; // Slightly slower for clarity
+
+    // Handle speech events
+    utterance.onstart = () => {
+      // Disable button and change appearance while speaking
+      if (buttonElement) {
+        buttonElement.disabled = true;
+        buttonElement.style.opacity = '0.7';
+        buttonElement.textContent = '🔊 Speaking...';
+      }
+    };
+
+    utterance.onend = () => {
+      // Re-enable button when speech ends
+      if (buttonElement) {
+        buttonElement.disabled = false;
+        buttonElement.style.opacity = '1';
+        buttonElement.textContent = '🔊 Pronounce';
+      }
+    };
+
+    utterance.onerror = (event) => {
+      console.error('Speech synthesis error:', event);
+      // Re-enable button on error
+      if (buttonElement) {
+        buttonElement.disabled = false;
+        buttonElement.style.opacity = '1';
+        buttonElement.textContent = '🔊 Pronounce';
+      }
+      alert('Speech synthesis error. Please try again.');
+    };
 
     window.speechSynthesis.speak(utterance);
   } else {
